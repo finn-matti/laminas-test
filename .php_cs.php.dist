@@ -1,0 +1,10 @@
+<?php
+$config = new PhpCsFixer\Config();
+$config
+    ->setRiskyAllowed(true)
+    ->setRules([
+        '@PSR12' => true,
+        '@PHP80Migration' => true,
+    ]);
+
+return $config;

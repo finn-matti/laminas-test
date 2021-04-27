@@ -1,0 +1,26 @@
+# file: docker-compose.yml
+version: '3'
+services:
+  cli:
+    image: registry.get-it-green.de/waschbaer/nex/docker/php/cli:latest
+    container_name: cli
+    volumes:
+      - "./src:/var/www/html"
+  db:
+    image: registry.get-it-green.de/waschbaer/nex/docker/elasticsearch:latest
+    container_name: elasticsearch
+    restart: unless-stopped
+    ports:
+      - "9200:9200"
+  rabbitmq:
+    image: registry.get-it-green.de/waschbaer/nex/docker/rabbitmq:latest
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672" # default port of queue
+      - "15672:15672" # port for management ui
+    volumes:
+      - ./.docker/rabbitmq/etc/definitions.json:/etc/rabbitmq/definitions.json
+      - ./.docker/rabbitmq/etc/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./.data/rabbitmq:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
+      - ./.logs/rabbitmq:/var/log/rabbitmq/log
